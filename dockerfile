@@ -1,24 +1,35 @@
-FROM python:3.11-slim
+# syntax=docker/dockerfile:1
+
+FROM python:3.11-slim-bookworm
+
+# Security + performance
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 WORKDIR /app
 
-# System dependencies
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# Create non-root user (CRITICAL for Scout)
+RUN addgroup --system appgroup && \
+    adduser --system --ingroup appgroup appuser
 
-# Copy dependency file first for better caching
+# Install dependencies
 COPY requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir --upgrade pip && \
+RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy project files
-COPY . .
+# Copy only required files (avoid bloat)
+COPY app ./app
+COPY recommender ./recommender
+COPY models ./models
 
-# Expose FastAPI port
+# Fix permissions
+RUN chown -R appuser:appgroup /app
+
+# Run as non-root (REQUIRED)
+USER appuser
+
 EXPOSE 8000
 
-# Start app
 CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
