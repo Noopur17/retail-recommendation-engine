@@ -6,7 +6,9 @@ __pycache__/
 .DS_Store
 .git/
 .gitignore
-.idea/
 .vscode/
+.idea/
 .ipynb_checkpoints/
 .env
+tests/
+*.log

@@ -151,6 +151,16 @@ GET /recommendations/1
 
 ---
 
+## 🔐 Security
+
+- Runs as non-root user
+- Uses minimal slim base image
+- Reduced attack surface with dockerignore
+- Docker Scout compliant
+
+
+---
+
 ## 🔮 Next Steps
 
 * Improve ranking logic (category + brand + rating signals)
