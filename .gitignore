@@ -1,55 +1,51 @@
-# ----------------------
+# ----------------------------
 # Python
-# ----------------------
+# ----------------------------
 __pycache__/
-*.pyc
+*.py[cod]
 *.pyo
 *.pyd
-*.log
+*.so
+*.egg-info/
+.pytest_cache/
 
-# Virtual environment
+# Virtual environments
 venv/
-.env/
+.venv/
+env/
+
+# Environment files
+.env
+.env.*
+
+# Logs
+*.log
 
 # macOS
 .DS_Store
 
-# ----------------------
-# ML / Models
-# ----------------------
-models/*.pkl
-models/*.joblib
-models/*.csv
-models/*.npy
-
-# If you want to keep models folder but ignore contents
-models/*
-!models/.gitkeep
-
-# ----------------------
-# Data files (optional)
-# ----------------------
-data/*.csv
-data/*.xlsx
-
-# ----------------------
-# Jupyter notebooks
-# ----------------------
-.ipynb_checkpoints/
-
-# ----------------------
-# FastAPI / Server
-# ----------------------
-*.db
-*.sqlite3
-
-# ----------------------
-# VS Code / IDE
-# ----------------------
+# IDE
 .vscode/
 .idea/
 
-# ----------------------
-# Environment variables
-# ----------------------
-.env
+# ----------------------------
+# Frontend
+# ----------------------------
+node_modules/
+frontend/node_modules/
+dist/
+build/
+
+# ----------------------------
+# Data / Models
+# ----------------------------
+models/*.pkl
+models/*.joblib
+models/*.csv
+
+# Keep folder
+!models/.gitkeep
+
+# Temp files
+tmp/
+temp/
