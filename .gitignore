@@ -8,87 +8,44 @@ __pycache__/
 *.so
 *.egg-info/
 .pytest_cache/
-.mypy_cache/
-.ruff_cache/
 
 # Virtual environments
 venv/
 .venv/
 env/
-ENV/
 
 # Environment files
 .env
 .env.*
-!.env.example
 
 # Logs
 *.log
 
-# macOS / OS files
+# macOS
 .DS_Store
-Thumbs.db
 
-# IDE / Editor
+# IDE
 .vscode/
 .idea/
 
 # ----------------------------
 # Frontend
 # ----------------------------
-frontend/node_modules/
-frontend/dist/
-frontend/.vite/
-frontend/.cache/
-
-# Generic frontend artifacts
 node_modules/
+frontend/node_modules/
 dist/
 build/
-coverage/
 
 # ----------------------------
-# Jupyter / notebooks
-# ----------------------------
-.ipynb_checkpoints/
-
-# ----------------------------
-# ML / models / data artifacts
+# Data / Models
 # ----------------------------
 models/*.pkl
 models/*.joblib
-models/*.npy
-models/*.npz
 models/*.csv
-models/*.parquet
 
-# Keep the folder if you want
+# Keep folder
 !models/.gitkeep
 
-# Local datasets / generated files
-data/processed/
-data/intermediate/
-artifacts/
-outputs/
+# Temp files
 tmp/
 temp/
-
-# ----------------------------
-# Docker
-# ----------------------------
-*.tar
-.docker/
-docker-cache/
-
-# ----------------------------
-# Test / coverage
-# ----------------------------
-.coverage
-htmlcov/
-coverage.xml
-
-# ----------------------------
-# Misc
-# ----------------------------
-*.swp
-*.swo
