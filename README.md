@@ -1,16 +1,14 @@
-
----
-
 # 🚀 retail-recommendation-engine
 
-A production-inspired **retail recommendation system** built using a custom product catalog dataset.
-This project demonstrates how to transform product metadata into **real-time recommendations** using a scalable backend architecture.
+A production-inspired **AI-powered retail recommendation system** that combines machine learning, scalable APIs, and a modern ecommerce UI.
+
+This project demonstrates how to transform product metadata into **real-time, user-facing recommendations** using a full-stack architecture.
 
 ---
 
 ## 🧠 Overview
 
-This system generates product recommendations based on **content similarity** across product attributes such as:
+RetailRec generates intelligent product recommendations using a **hybrid similarity model** built on product attributes such as:
 
 * product name
 * brand
@@ -18,18 +16,69 @@ This system generates product recommendations based on **content similarity** ac
 * sub-category
 * tags
 * description
+* price & rating signals
 
-It uses a machine learning pipeline with **TF-IDF vectorization** and **cosine similarity** to identify similar products.
+Unlike basic systems, this project integrates:
+
+* 🧠 Machine Learning (TF-IDF + hybrid scoring)
+* ⚡ FastAPI backend
+* 🎨 React frontend (ecommerce UI)
+* 🐳 Dockerized deployment
 
 ---
 
 ## ⚙️ Features
 
 * 📊 Content-based recommendation engine
+* 🤖 Hybrid ranking (text + category + rating + price)
 * ⚡ FastAPI backend for real-time recommendations
-* 🧠 ML pipeline (preprocessing → feature engineering → similarity model)
-* 🔍 Product-to-product recommendation API
-* 🧱 Modular and extensible architecture
+* 🎨 Ecommerce-style React frontend
+* 🔍 Product search, filtering, and sorting
+* 🛒 Add-to-cart interaction flow
+* 🖼️ Product image integration
+* 📦 Full Docker support (frontend + backend)
+
+---
+
+## 🧠 Recommendation Engine
+
+The system uses a **hybrid similarity model**:
+
+1. TF-IDF text similarity (product metadata)
+2. Category and sub-category matching
+3. Rating normalization
+4. Price normalization
+
+### Final scoring formula:
+
+0.50 * text_similarity
+
+* 0.20 * category_match
+* 0.10 * sub_category_match
+* 0.10 * rating_score
+* 0.10 * price_score
+
+---
+
+## 🏗️ Tech Stack
+
+### Backend
+
+* FastAPI
+* Pandas / NumPy
+* Scikit-learn
+* Joblib
+
+### Frontend
+
+* React (Vite)
+* Custom CSS (ecommerce UI)
+
+### Deployment
+
+* Docker
+* Docker Compose
+* Nginx (frontend serving)
 
 ---
 
@@ -40,9 +89,13 @@ retail-recommendation-engine/
 │
 ├── app/                # FastAPI application
 ├── recommender/        # ML pipeline (preprocess, train, recommend)
-├── data/raw/           # Dataset (not committed)
-├── models/             # Trained model artifacts (not committed)
-├── tests/              # Basic tests
+├── data/               # Dataset
+├── models/             # Trained model artifacts
+│
+├── frontend/           # React ecommerce UI
+│
+├── dockerfile          # Backend container
+├── docker-compose.yml  # Full stack setup
 ├── requirements.txt
 └── README.md
 ```
@@ -51,11 +104,9 @@ retail-recommendation-engine/
 
 ## 📊 Dataset
 
-This project uses a custom retail dataset from Kaggle:
+This project uses a custom retail dataset (Kaggle-inspired).
 
-Retail Product Catalog Dataset (by Noopur Bhatt)
-
-Sample columns:
+### Key fields:
 
 * product_id
 * product_name
@@ -67,6 +118,7 @@ Sample columns:
 * review_count
 * tags
 * description
+* image_url
 
 ---
 
@@ -74,10 +126,12 @@ Sample columns:
 
 1. Load product dataset
 2. Preprocess and clean text fields
-3. Combine product attributes into a single text representation
+3. Combine attributes into a single representation
 4. Apply TF-IDF vectorization
 5. Compute cosine similarity matrix
-6. Retrieve top-N similar products
+6. Apply hybrid scoring (category + rating + price)
+7. Serve recommendations via API
+8. Display results in frontend UI
 
 ---
 
@@ -101,40 +155,70 @@ python -m recommender.train
 
 ---
 
-### 3. Start API
+### 3. Start backend
 
 ```
 python -m uvicorn app.main:app --reload
 ```
 
----
-
-### 4. Test API
-
-Open:
+Backend:
 
 ```
-http://127.0.0.1:8000/docs
-```
-
-Example endpoint:
-
-```
-GET /recommendations/1
+http://127.0.0.1:8000
 ```
 
 ---
 
-## 📌 Example Output
+### 4. Start frontend
+
+```
+cd frontend
+npm install
+npm run dev
+```
+
+Frontend:
+
+```
+http://localhost:3000
+```
+
+---
+
+## 🐳 Run with Docker (Recommended)
+
+```
+docker compose up --build
+```
+
+---
+
+### Access
+
+| Service     | URL                        |
+| ----------- | -------------------------- |
+| Frontend    | http://localhost:3000      |
+| Backend API | http://localhost:8000/docs |
+
+---
+
+## 📌 Example API
+
+```
+GET /recommendations/{product_id}
+```
+
+Example:
 
 ```
 {
   "product_id": 1,
-  "recommendations": [
+  "products": [
     {
       "product_id": 7,
       "product_name": "Almond Snack Pack",
-      "category": "Groceries"
+      "category": "Groceries",
+      "similarity_score": 0.68
     }
   ]
 }
@@ -144,43 +228,46 @@ GET /recommendations/1
 
 ## 🚧 Current Status
 
-* Dataset integrated
-* Model training pipeline implemented
-* FastAPI recommendation service running
-* End-to-end working system
+* ✅ Dataset integrated
+* ✅ ML pipeline implemented
+* ✅ Hybrid recommendation system
+* ✅ FastAPI backend running
+* ✅ React frontend integrated
+* ✅ Product images working
+* ✅ Dockerized full-stack setup
 
 ---
 
 ## 🔐 Security
 
-- Runs as non-root user
-- Uses minimal slim base image
-- Reduced attack surface with dockerignore
-- Docker Scout compliant
-
+* Runs on minimal slim base image
+* Dockerized isolation
+* Reduced attack surface via `.dockerignore`
 
 ---
 
 ## 🔮 Next Steps
 
-* Improve ranking logic (category + brand + rating signals)
-* Add hybrid recommendation system (ML + DL)
-* Introduce user personalization layer
-* Build React frontend
-* Align with research paper architecture
+* Personalized recommendations (user behavior)
+* Collaborative filtering
+* Real-time ranking improvements
+* Redis caching
+* Elasticsearch search
+* Cloud deployment (AWS)
+* CI/CD pipeline
 
 ---
 
 ## 📄 Research Alignment
 
-This project is part of a broader research effort on **AI-based hybrid recommendation systems**, combining:
+This project contributes toward research in **AI-based hybrid recommendation systems**, combining:
 
-* machine learning models
-* deep learning architectures
-* feature engineering pipelines
+* content-based filtering
+* feature engineering
 * ranking optimization
+* scalable API systems
 
-The current implementation represents the **baseline system**, which will be extended into a hybrid model.
+It serves as a **baseline production-ready system** for further research expansion.
 
 ---
 
