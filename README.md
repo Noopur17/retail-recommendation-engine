@@ -102,6 +102,87 @@ retail-recommendation-engine/
 
 ---
 
+## 🏗️ Architecture Diagram
+
+```mermaid
+flowchart LR
+
+%% User Layer
+A[User / Browser]
+
+%% Frontend
+B[React Frontend (Vite)]
+
+%% Backend
+C[FastAPI Backend]
+
+%% ML Layer
+D[Recommendation Engine]
+E[TF-IDF Vectorizer]
+F[Hybrid Similarity Model]
+
+%% Data Layer
+G[Product Dataset (CSV)]
+H[Trained Models (data.pkl, similarity.pkl)]
+
+%% Static Assets
+I[Product Images (Static Files)]
+
+%% Flow
+A --> B
+B -->|API Calls| C
+
+C -->|Fetch Products| H
+C -->|Compute Recommendations| D
+
+D --> E
+E --> F
+
+F --> H
+
+C --> I
+
+%% Labels
+B -. UI Rendering .-> I
+```
+
+---
+
+### 🧠 Architecture Overview
+
+The system follows a **layered architecture**:
+
+* **Frontend (React)**
+  Handles UI, search, filters, and user interactions
+
+* **Backend (FastAPI)**
+  Exposes APIs for:
+
+  * product listing
+  * recommendation retrieval
+
+* **Recommendation Engine**
+  Computes similarity using:
+
+  * TF-IDF vectorization
+  * hybrid scoring (category + rating + price)
+
+* **Static Assets**
+  Product images served via FastAPI static routes
+
+---
+
+
+### ⚡ Key Design Decisions
+
+* Precomputed similarity matrix → fast response time
+* Hybrid scoring → better recommendation quality
+* Static image serving → consistent UI rendering
+* Dockerized services → easy deployment
+
+---
+
+
 ## 📊 Dataset
 
 This project uses a custom retail dataset (Kaggle-inspired).
