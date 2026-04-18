@@ -8,13 +8,10 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_PATH = BASE_DIR / "models" / "data.pkl"
 
 
-@router.get("/products")
-def get_products(limit: int = 50):
+@router.get("")  # ✅ IMPORTANT: empty string
+def get_products(limit: int = 100):
     if not DATA_PATH.exists():
-        return {
-            "products": [],
-            "message": f"Data file not found at {DATA_PATH}"
-        }
+        return {"products": []}
 
     df = joblib.load(DATA_PATH)
     products = df.head(limit).fillna("").to_dict(orient="records")

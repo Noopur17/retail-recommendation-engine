@@ -1,119 +1,218 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./styles.css";
 
-function App() {
+const API_BASE = "http://127.0.0.1:8000";
+const ITEMS_PER_PAGE = 8;
+
+// 🔥 FIX: helper to build correct image URL
+const getImageUrl = (path) => {
+  if (!path) return "";
+  return `${API_BASE}${path}`;
+};
+
+export default function App() {
   const [products, setProducts] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [modalProduct, setModalProduct] = useState(null);
+  const [cart, setCart] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("");
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/products")
+    fetch(`${API_BASE}/products`)
       .then((res) => res.json())
-      .then((data) => setProducts(data.products || []));
+      .then((data) => setProducts(data.products || []))
+      .catch(() => setProducts([]));
   }, []);
 
-  const getRecommendations = async (product) => {
+  const categories = useMemo(
+    () => ["All", ...new Set(products.map((p) => p.category).filter(Boolean))],
+    [products]
+  );
+
+  const filtered = useMemo(() => {
+    let list = products
+      .filter((p) =>
+        p.product_name.toLowerCase().includes(search.toLowerCase())
+      )
+      .filter((p) =>
+        selectedCategory === "All" ? true : p.category === selectedCategory
+      );
+
+    if (sortBy === "price_asc") list = [...list].sort((a, b) => a.price - b.price);
+    if (sortBy === "price_desc") list = [...list].sort((a, b) => b.price - a.price);
+    if (sortBy === "rating_desc") list = [...list].sort((a, b) => b.rating - a.rating);
+
+    return list;
+  }, [products, search, selectedCategory, sortBy]);
+
+  const start = (page - 1) * ITEMS_PER_PAGE;
+  const visible = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+  const fetchRecommendations = async (product) => {
     setSelectedProduct(product);
-
-    const res = await fetch(
-      `http://127.0.0.1:8000/recommendations/${product.product_id}`
-    );
+    const res = await fetch(`${API_BASE}/recommendations/${product.product_id}?top_k=6`);
     const data = await res.json();
-
     setRecommendations(data.products || []);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const filteredProducts = products.filter((p) =>
-    p.product_name.toLowerCase().includes(search.toLowerCase())
-  );
+  const addToCart = (product) => {
+    setCart((prev) => [...prev, product]);
+  };
 
   return (
     <div className="app">
-      {/* HEADER */}
-      <div className="header">
-        <h1>RetailRec</h1>
-
-        <input
-          placeholder="Search products..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-
-        <div className="nav">
-          <span>Deals</span>
-          <span>Electronics</span>
-          <span>Home</span>
+      <header className="header">
+        <div className="brand-block">
+          <div className="brand">RetailRec</div>
+          <div className="subbrand">AI retail discovery</div>
         </div>
-      </div>
 
-      {/* RECOMMENDATIONS */}
-      {selectedProduct && (
-        <div className="recommendation-section">
-          <h2>Recommended for you</h2>
-          <p>Based on: {selectedProduct.product_name}</p>
+        <div className="search-wrap">
+          <input
+            className="search-input"
+            placeholder="Search products"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+          />
+        </div>
+
+        <div className="cart-pill">🛒 {cart.length}</div>
+      </header>
+
+      <div className="content">
+        <aside className="sidebar">
+          <div className="sidebar-title">Categories</div>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`sidebar-item ${cat === selectedCategory ? "active" : ""}`}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setPage(1);
+              }}
+            >
+              {cat}
+            </button>
+          ))}
+        </aside>
+
+        <main className="main">
+          <div className="toolbar">
+            <div className="toolbar-title">Shop Products</div>
+            <select
+              className="sort-select"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+            >
+              <option value="">Sort</option>
+              <option value="price_asc">Price low to high</option>
+              <option value="price_desc">Price high to low</option>
+              <option value="rating_desc">Top rated</option>
+            </select>
+          </div>
 
           <div className="grid">
-            {recommendations.map((p) => (
-              <ProductCard key={p.product_id} product={p} />
+            {visible.map((p) => (
+              <article key={p.product_id} className="card">
+                <div className="image-frame">
+                  {/* 🔥 FIX HERE */}
+                  <img
+                    src={getImageUrl(p.image_url)}
+                    alt={p.product_name}
+                    className="product-image"
+                  />
+                </div>
+
+                <div className="card-body">
+                  <div className="brand-text">{p.brand}</div>
+                  <h3 className="product-title">{p.product_name}</h3>
+                  <div className="meta-row">
+                    <span className="rating">⭐ {p.rating} ({p.review_count})</span>
+                  </div>
+                  <div className="price">${Number(p.price).toFixed(2)}</div>
+
+                  <button
+                    className="primary-btn"
+                    onClick={() => {
+                      setModalProduct(p);
+                      fetchRecommendations(p);
+                    }}
+                  >
+                    View Details
+                  </button>
+                </div>
+              </article>
             ))}
+          </div>
+
+          {/* Recommendations */}
+          {selectedProduct && (
+            <section className="recommendations">
+              <h2 className="recommendations-title">
+                Recommended for {selectedProduct.product_name}
+              </h2>
+
+              <div className="grid">
+                {recommendations.map((p) => (
+                  <article key={p.product_id} className="card small-card">
+                    <div className="image-frame small-frame">
+                      <img
+                        src={getImageUrl(p.image_url)}   // 🔥 FIX HERE ALSO
+                        alt={p.product_name}
+                        className="product-image"
+                      />
+                    </div>
+
+                    <div className="card-body">
+                      <div className="brand-text">{p.brand}</div>
+                      <h4 className="small-title">{p.product_name}</h4>
+                      <div className="price">${Number(p.price).toFixed(2)}</div>
+                      <div className="small-meta">⭐ {p.rating}</div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          )}
+        </main>
+      </div>
+
+      {/* Modal */}
+      {modalProduct && (
+        <div className="modal-overlay" onClick={() => setModalProduct(null)}>
+          <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-image-wrap">
+              <img
+                src={getImageUrl(modalProduct.image_url)}  // 🔥 FIX HERE
+                alt={modalProduct.product_name}
+                className="modal-image"
+              />
+            </div>
+
+            <div className="modal-content">
+              <div className="modal-brand">{modalProduct.brand}</div>
+              <h2 className="modal-title">{modalProduct.product_name}</h2>
+              <div className="modal-price">${Number(modalProduct.price).toFixed(2)}</div>
+              <div className="modal-rating">⭐ {modalProduct.rating}</div>
+
+              <button
+                className="add-cart-btn"
+                onClick={() => addToCart(modalProduct)}
+              >
+                Add to Cart
+              </button>
+            </div>
           </div>
         </div>
       )}
-
-      {/* PRODUCTS */}
-      <div className="product-section">
-        <h2>Shop products</h2>
-
-        <div className="grid">
-          {filteredProducts.map((p) => (
-            <ProductCard
-              key={p.product_id}
-              product={p}
-              onClick={() => getRecommendations(p)}
-            />
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
-
-function ProductCard({ product, onClick }) {
-  return (
-    <div className="card" onClick={onClick}>
-      <img src={getImage(product.product_name)} />
-
-      <div className="card-body">
-        <p className="brand">{product.brand}</p>
-        <h3>{product.product_name}</h3>
-
-        <div className="price-row">
-          <span className="price">${product.price}</span>
-          <span className="rating">⭐ {product.rating}</span>
-        </div>
-
-        <button>View</button>
-      </div>
-    </div>
-  );
-}
-
-/* SIMPLE IMAGE MAPPING */
-function getImage(name) {
-  const map = {
-    "Vacuum Cleaner":
-      "https://images.unsplash.com/photo-1581578731548-c64695cc6952",
-    "Blender Mixer":
-      "https://images.unsplash.com/photo-1577801593810-2c5f3b84c8e0",
-    "Yoga Mat":
-      "https://images.unsplash.com/photo-1599058917765-a780eda07a3e",
-    "Bluetooth Wireless Headphones":
-      "https://images.unsplash.com/photo-1580894894513-541e068a3e2b",
-  };
-
-  return map[name] || "https://via.placeholder.com/300";
-}
-
-export default App;
