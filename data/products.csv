@@ -10,10 +10,10 @@ product_id,product_name,brand,category,sub_category,price,rating,review_count,st
 9,Noise Cancelling Earbuds,TechNova,Electronics,Audio,89.99,4.5,198,In Stock,earbuds|audio|noise,Noise cancelling earbuds,/static/images/earbuds.jpeg
 10,Smart LED TV 40 inch,TechNova,Electronics,TV,299.99,4.4,310,In Stock,tv|display|smart,Smart LED TV,/static/images/smarttv.jpeg
 11,4K Streaming Stick,TechNova,Electronics,TV,49.99,4.4,176,In Stock,streaming|tv|media,Streaming stick device,/static/images/stickwireless.jpeg
-12,Wireless Mouse,TechNova,Electronics,Accessories,18.99,4.3,205,In Stock,mouse|wireless|device,Wireless mouse,https://images.unsplash.com/photo-1587829741301-dc798b83add3
-13,Mechanical Keyboard,TechNova,Electronics,Accessories,79.99,4.6,280,In Stock,keyboard|mechanical|typing,Mechanical keyboard,https://images.unsplash.com/photo-1517336714731-489689fd1ca8
-14,Vacuum Cleaner,HomeEase,Home & Kitchen,Appliances,129.99,4.5,233,In Stock,vacuum|cleaning|home,Vacuum cleaner,https://images.unsplash.com/photo-1581578731548-c64695cc6952
-15,Blender Mixer,HomeEase,Home & Kitchen,Appliances,49.99,4.3,170,In Stock,blender|kitchen|appliance,Blender mixer,https://images.unsplash.com/photo-1570696516188-ade861b84a49
+12,Wireless Mouse,TechNova,Electronics,Accessories,18.99,4.3,205,In Stock,mouse|wireless|device,Wireless mouse,/static/images/mouse.jpeg
+13,Mechanical Keyboard,TechNova,Electronics,Accessories,79.99,4.6,280,In Stock,keyboard|mechanical|typing,Mechanical keyboard,/static/images/keyboard.jpeg
+14,Vacuum Cleaner,HomeEase,Home & Kitchen,Appliances,129.99,4.5,233,In Stock,vacuum|cleaning|home,Vacuum cleaner,/static/images/vacuumCleaner.jpeg
+15,Blender Mixer,HomeEase,Home & Kitchen,Appliances,49.99,4.3,170,In Stock,blender|kitchen|appliance,Blender mixer,/static/images/mixer.jpeg
 16,Microwave Oven,HomeEase,Home & Kitchen,Appliances,129.99,4.5,201,In Stock,microwave|kitchen|appliance,Microwave oven,https://images.unsplash.com/photo-1586201375761-83865001e31c
 17,Air Fryer,HomeEase,Home & Kitchen,Appliances,89.99,4.6,240,In Stock,airfryer|kitchen|appliance,Air fryer,https://images.unsplash.com/photo-1604908176997-431b2aef4e9c
 18,Electric Kettle,HomeEase,Home & Kitchen,Appliances,27.99,4.5,186,In Stock,kettle|boil|water,Electric kettle,https://images.unsplash.com/photo-1571607388263-1044f9ea01dd
