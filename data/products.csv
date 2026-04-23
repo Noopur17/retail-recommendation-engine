@@ -14,12 +14,12 @@ product_id,product_name,brand,category,sub_category,price,rating,review_count,st
 13,Mechanical Keyboard,TechNova,Electronics,Accessories,79.99,4.6,280,In Stock,keyboard|mechanical|typing,Mechanical keyboard,/static/images/keyboard.jpeg
 14,Vacuum Cleaner,HomeEase,Home & Kitchen,Appliances,129.99,4.5,233,In Stock,vacuum|cleaning|home,Vacuum cleaner,/static/images/vacuumCleaner.jpeg
 15,Blender Mixer,HomeEase,Home & Kitchen,Appliances,49.99,4.3,170,In Stock,blender|kitchen|appliance,Blender mixer,/static/images/mixer.jpeg
-16,Microwave Oven,HomeEase,Home & Kitchen,Appliances,129.99,4.5,201,In Stock,microwave|kitchen|appliance,Microwave oven,https://images.unsplash.com/photo-1586201375761-83865001e31c
-17,Air Fryer,HomeEase,Home & Kitchen,Appliances,89.99,4.6,240,In Stock,airfryer|kitchen|appliance,Air fryer,https://images.unsplash.com/photo-1604908176997-431b2aef4e9c
-18,Electric Kettle,HomeEase,Home & Kitchen,Appliances,27.99,4.5,186,In Stock,kettle|boil|water,Electric kettle,https://images.unsplash.com/photo-1571607388263-1044f9ea01dd
-19,Non Stick Cooking Pan,HomeEase,Home & Kitchen,Cookware,24.99,4.5,180,In Stock,pan|cookware|kitchen,Non stick pan,https://images.unsplash.com/photo-1586201375761-83865001e31c
-20,Ceramic Dinner Set,HomeEase,Home & Kitchen,Dining,42.99,4.5,122,In Stock,dinner|plates|set,Ceramic dinner set,https://images.unsplash.com/photo-1600585154340-be6161a56a0c
-21,Cotton Casual T Shirt,UrbanWear,Clothing,Apparel,12.99,4.2,150,In Stock,tshirt|cotton|casual,Cotton t shirt,https://images.unsplash.com/photo-1521572163474-6864f9cf17ab
+16,Microwave Oven,HomeEase,Home & Kitchen,Appliances,129.99,4.5,201,In Stock,microwave|kitchen|appliance,Microwave oven,/static/images/microwave.jpeg
+17,Air Fryer,HomeEase,Home & Kitchen,Appliances,89.99,4.6,240,In Stock,airfryer|kitchen|appliance,Air fryer,/static/images/airfryer.jpeg
+18,Electric Kettle,HomeEase,Home & Kitchen,Appliances,27.99,4.5,186,In Stock,kettle|boil|water,Electric kettle,/static/images/electricKettle.jpeg
+19,Non Stick Cooking Pan,HomeEase,Home & Kitchen,Cookware,24.99,4.5,180,In Stock,pan|cookware|kitchen,Non stick pan,/static/images/pan.jpeg
+20,Ceramic Dinner Set,HomeEase,Home & Kitchen,Dining,42.99,4.5,122,In Stock,dinner|plates|set,Ceramic dinner set,/static/images/dinnerset.jpeg
+21,Cotton Casual T Shirt,UrbanWear,Clothing,Apparel,12.99,4.2,150,In Stock,tshirt|cotton|casual,Cotton t shirt,/static/images/cottonTshirt.jpeg
 22,Denim Jeans,UrbanWear,Clothing,Apparel,39.99,4.2,200,In Stock,jeans|denim|fashion,Denim jeans,https://images.unsplash.com/photo-1541099649105-f69ad21f3246
 23,Hooded Sweatshirt,UrbanWear,Clothing,Apparel,29.99,4.5,220,In Stock,hoodie|casual|wear,Hooded sweatshirt,https://images.unsplash.com/photo-1554568218-0f1715e72254
 24,Puffer Jacket,UrbanWear,Clothing,Outerwear,69.99,4.5,130,In Stock,jacket|winter|wear,Puffer jacket,https://images.unsplash.com/photo-1517841905240-472988babdf9
